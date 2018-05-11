@@ -1190,7 +1190,7 @@ int main(int argc, char **argv, char **envp) {
   case KleeLibc: {
     // FIXME: Find a reasonable solution for this.
     SmallString<128> Path(Opts.LibraryDir);
-    llvm::sys::path::append(Path, "libklee-libc.bca");
+    llvm::sys::path::append(Path, "libklee-libc.a");
     if (!klee::loadFile(Path.c_str(), mainModule->getContext(), loadedModules,
                         errorMsg))
       klee_error("error loading klee libc '%s': %s", Path.c_str(),
@@ -1199,7 +1199,7 @@ int main(int argc, char **argv, char **envp) {
   /* no break */
   case FreeStandingLibc: {
     SmallString<128> Path(Opts.LibraryDir);
-    llvm::sys::path::append(Path, "libkleeRuntimeFreeStanding.bca");
+    llvm::sys::path::append(Path, "libkleeRuntimeFreeStanding.a");
     if (!klee::loadFile(Path.c_str(), mainModule->getContext(), loadedModules,
                         errorMsg))
       klee_error("error loading free standing support '%s': %s", Path.c_str(),
@@ -1213,7 +1213,7 @@ int main(int argc, char **argv, char **envp) {
 
   if (WithPOSIXRuntime) {
     SmallString<128> Path(Opts.LibraryDir);
-    llvm::sys::path::append(Path, "libkleeRuntimePOSIX.bca");
+    llvm::sys::path::append(Path, "libkleeRuntimePOSIX.a");
     klee_message("NOTE: Using POSIX model: %s", Path.c_str());
     if (!klee::loadFile(Path.c_str(), mainModule->getContext(), loadedModules,
                         errorMsg))

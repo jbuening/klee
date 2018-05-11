@@ -165,7 +165,7 @@ clean::
 endif # MODULE_NAME
 
 ifdef ARCHIVE_NAME
-ARCHIVE_FILE := $(ARCHIVE_DEST)/lib$(ARCHIVE_NAME).bca
+ARCHIVE_FILE := $(ARCHIVE_DEST)/lib$(ARCHIVE_NAME).a
 
 build_at_level:: $(ARCHIVE_FILE)
 
