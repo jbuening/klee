@@ -120,14 +120,14 @@ add_dependencies(clean_all clean_runtime)
 set(RUNTIME_FILES_TO_INSTALL)
 
 list(APPEND RUNTIME_FILES_TO_INSTALL
-  "${KLEE_RUNTIME_DIRECTORY}/kleeRuntimeIntrinsic.bc"
-  "${KLEE_RUNTIME_DIRECTORY}/klee-libc.bc"
-  "${KLEE_RUNTIME_DIRECTORY}/kleeRuntimeFreeStanding.bc"
+  "${KLEE_RUNTIME_DIRECTORY}/kleeRuntimeIntrinsic.a"
+  "${KLEE_RUNTIME_DIRECTORY}/klee-libc.a"
+  "${KLEE_RUNTIME_DIRECTORY}/kleeRuntimeFreeStanding.a"
   )
 
 if (ENABLE_POSIX_RUNTIME)
   list(APPEND RUNTIME_FILES_TO_INSTALL
-    "${KLEE_RUNTIME_DIRECTORY}/libkleeRuntimePOSIX.bca")
+    "${KLEE_RUNTIME_DIRECTORY}/libkleeRuntimePOSIX.a")
 endif()
 
 install(FILES
