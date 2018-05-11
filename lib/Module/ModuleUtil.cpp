@@ -178,7 +178,6 @@ klee::linkModules(std::vector<std::unique_ptr<llvm::Module> > &modules,
                   llvm::StringRef entryFunction, std::string &errorMsg) {
   assert(!modules.empty() && "modules list should not be empty");
 
-  bool foundError = false;
   if (entryFunction.empty()) {
     // If no entry function is provided, link all modules together into one
     std::unique_ptr<llvm::Module> composite = std::move(modules.back());
@@ -191,15 +190,11 @@ klee::linkModules(std::vector<std::unique_ptr<llvm::Module> > &modules,
 
       // Linking failed
       errorMsg = "Linking archive module with composite failed:" + errorMsg;
-      foundError = true;
-      break;
+      return nullptr;
     }
 
     // clean up every module as we already linked in every module
     modules.clear();
-
-    if (foundError)
-      return nullptr;
     return composite;
   }
 
@@ -211,6 +206,13 @@ klee::linkModules(std::vector<std::unique_ptr<llvm::Module> > &modules,
   for (auto &module : modules) {
     if (!module || !module->getNamedValue(entryFunction))
       continue;
+    if (composite) {
+      errorMsg = "Function " + entryFunction.str() +
+                 " defined in different modules (" +
+                 module->getModuleIdentifier() + " already defined in: " +
+                 composite->getModuleIdentifier() + ")";
+      return nullptr;
+    }
     composite = std::move(module);
   }
 
@@ -250,15 +252,11 @@ klee::linkModules(std::vector<std::unique_ptr<llvm::Module> > &modules,
         }
         // Linking failed
         errorMsg = "Linking archive module with composite failed:" + errorMsg;
-        foundError = true;
-        break;
+        return nullptr;
       }
 
-      //
-      if (foundError)
-        break;
     }
-    if (foundError || !merged)
+    if (!merged)
       break;
   }
 
@@ -269,10 +267,6 @@ klee::linkModules(std::vector<std::unique_ptr<llvm::Module> > &modules,
       LeftoverModules.emplace_back(std::move(module));
   }
   modules.swap(LeftoverModules);
-
-  if (foundError)
-    return nullptr;
-
   return composite;
 }
 
