@@ -560,30 +560,30 @@ if (ENABLE_KLEE_UCLIBC)
   endif()
 
   # Find the C library bitcode archive
-  set(KLEE_UCLIBC_BCA_NAME "klee-uclibc.bca")
-  set(KLEE_UCLIBC_C_BCA "${KLEE_UCLIBC_PATH}/lib/libc.a")
-  if (NOT EXISTS "${KLEE_UCLIBC_C_BCA}")
+  set(KLEE_UCLIBC_ARCHIVE_NAME "klee-uclibc.a")
+  set(KLEE_UCLIBC_ARCHIVE_EXTERN "${KLEE_UCLIBC_PATH}/lib/libc.a")
+  if (NOT EXISTS "${KLEE_UCLIBC_ARCHIVE_EXTERN}")
     message(FATAL_ERROR
-      "klee-uclibc library not found at \"${KLEE_UCLIBC_C_BCA}\"")
+      "klee-uclibc library not found at \"${KLEE_UCLIBC_ARCHIVE_EXTERN}\"")
   endif()
-  message(STATUS "Found klee-uclibc library: \"${KLEE_UCLIBC_C_BCA}\"")
+  message(STATUS "Found klee-uclibc library: \"${KLEE_UCLIBC_ARCHIVE_EXTERN}\"")
 
-  # Make a symlink to KLEE_UCLIBC_C_BCA so KLEE can find it where it
+  # Make a symlink to KLEE_UCLIBC_ARCHIVE_EXTERN so KLEE can find it where it
   # is expected.
   file(MAKE_DIRECTORY "${KLEE_RUNTIME_DIRECTORY}")
   execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
-    "${KLEE_UCLIBC_C_BCA}"
-    "${KLEE_RUNTIME_DIRECTORY}/${KLEE_UCLIBC_BCA_NAME}"
+    "${KLEE_UCLIBC_ARCHIVE_EXTERN}"
+    "${KLEE_RUNTIME_DIRECTORY}/${KLEE_UCLIBC_ARCHIVE_NAME}"
   )
   list(APPEND KLEE_COMPONENT_CXX_DEFINES
-    -DKLEE_UCLIBC_BCA_NAME=\"${KLEE_UCLIBC_BCA_NAME}\")
+    -DKLEE_UCLIBC_ARCHIVE_NAME=\"${KLEE_UCLIBC_ARCHIVE_NAME}\")
 
   # Add klee-uclibc to the install target. We install the original
   # file rather than the symlink because CMake would just copy the symlink
   # rather than the file.
-  install(FILES "${KLEE_UCLIBC_C_BCA}"
+  install(FILES "${KLEE_UCLIBC_ARCHIVE_EXTERN}"
     DESTINATION "${KLEE_INSTALL_RUNTIME_DIR}"
-    RENAME "${KLEE_UCLIBC_BCA_NAME}"
+    RENAME "${KLEE_UCLIBC_ARCHIVE_NAME}"
     )
 
 else()

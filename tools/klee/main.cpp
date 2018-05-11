@@ -1061,11 +1061,11 @@ linkWithUclibc(StringRef libDir,
   size_t newModules = modules.size();
 
   // Ensure that klee-uclibc exists
-  SmallString<128> uclibcBCA(libDir);
+  SmallString<128> uclibcArchive(libDir);
   std::string errorMsg;
-  llvm::sys::path::append(uclibcBCA, KLEE_UCLIBC_BCA_NAME);
-  if (!klee::loadFile(uclibcBCA.c_str(), ctx, modules, errorMsg))
-    klee_error("Cannot find klee-uclibc '%s': %s", uclibcBCA.c_str(),
+  llvm::sys::path::append(uclibcArchive, KLEE_UCLIBC_ARCHIVE_NAME);
+  if (!klee::loadFile(uclibcArchive.c_str(), ctx, modules, errorMsg))
+    klee_error("Cannot find klee-uclibc '%s': %s", uclibcArchive.c_str(),
                errorMsg.c_str());
 
   for (auto i = newModules, j = modules.size(); i < j; ++i) {
@@ -1074,7 +1074,7 @@ linkWithUclibc(StringRef libDir,
   }
 
   createLibCWrapper(modules, EntryPoint, "__uClibc_main");
-  klee_message("NOTE: Using klee-uclibc : %s", uclibcBCA.c_str());
+  klee_message("NOTE: Using klee-uclibc : %s", uclibcArchive.c_str());
 }
 #endif
 
