@@ -107,7 +107,6 @@ addons:
       - docker-ce
 cache:
   ccache: true
-  apt: true
   directories:
     - $HOME/Library/Caches/Homebrew
 before_install:
