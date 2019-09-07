@@ -1,13 +1,3 @@
-# TODO remove adding sudo package
-# Create ``klee`` user for container with password ``klee``.
-# and give it password-less sudo access (temporarily so we can use the TravisCI scripts)
-RUN apt update && apt -y --no-install-recommends install sudo && \
-    rm -rf /var/lib/apt/lists/* && \
-    useradd -m klee && \
-    echo klee:klee | chpasswd && \
-    cp /etc/sudoers /etc/sudoers.bak && \
-    echo 'klee  ALL=(root) NOPASSWD: ALL' >> /etc/sudoers
-
 ENV BASE=/tmp
 # Copy across source files needed for build
 # Set klee user to be owner

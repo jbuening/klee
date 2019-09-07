@@ -254,6 +254,14 @@ build_docker() {
       echo "ENV ${d_v}=${d_v_value}"
     done
 
+echo "RUN apt update && apt -y --no-install-recommends install sudo && \ "
+echo "    rm -rf /var/lib/apt/lists/* && \ "
+echo "    useradd -m klee && \ "
+echo "    echo klee:klee | chpasswd && \ "
+echo "    cp /etc/sudoers /etc/sudoers.bak && \ "
+echo "    echo 'klee  ALL=(root) NOPASSWD: ALL' >> /etc/sudoers"
+echo "RUN sed -i \"s;deb http://archive.ubuntu.com/ubuntu/;deb mirror://mirrors.ubuntu.com/mirrors.txt;g\" /etc/apt/sources.list"
+
     # Run the build script
     if [[ -z "${docker_context}" ]]; then
       # Copy content from the temporary directory to the docker image
