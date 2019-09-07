@@ -111,6 +111,7 @@ cache:
     - $HOME/Library/Caches/Homebrew
 before_install:
    - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew install bash ; fi
+   - if [[ "$TRAVIS_OS_NAME" == "linux"]]; then sed -i "s|deb http://archive.ubuntu.com/ubuntu/|deb mirror://mirrors.ubuntu.com/mirrors.txt|g" /etc/apt/sources.list; fi
 
 script:
     # Build KLEE and run tests
