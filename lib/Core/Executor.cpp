@@ -72,11 +72,7 @@
 #include "llvm/Support/FileSystem.h"
 #include "llvm/Support/Path.h"
 #include "llvm/Support/Process.h"
-#if LLVM_VERSION_CODE >= LLVM_VERSION(10, 0)
 #include "llvm/Support/TypeSize.h"
-#else
-typedef unsigned TypeSize;
-#endif
 #include "llvm/Support/raw_ostream.h"
 
 #include <algorithm>
@@ -1958,12 +1954,8 @@ void Executor::executeCall(ExecutionState &state, KInstruction *ki, Function *f,
           argWidth = arguments[k]->getWidth();
         }
 
-#if LLVM_VERSION_CODE >= LLVM_VERSION(11, 0)
         MaybeAlign ma = cb.getParamAlign(k);
         unsigned alignment = ma ? ma->value() : 0;
-#else
-        unsigned alignment = cb.getParamAlignment(k);
-#endif
 
         if (WordSize == Expr::Int32 && !alignment)
           alignment = 4;
@@ -3160,11 +3152,7 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
       return;
     }
     uint64_t iIdx = cIdx->getZExtValue();
-#if LLVM_VERSION_MAJOR >= 11
     const auto *vt = cast<llvm::FixedVectorType>(iei->getType());
-#else
-    const llvm::VectorType *vt = iei->getType();
-#endif
     unsigned EltBits = getWidthForLLVMType(vt->getElementType());
 
     if (iIdx >= vt->getNumElements()) {
@@ -3202,11 +3190,7 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
       return;
     }
     uint64_t iIdx = cIdx->getZExtValue();
-#if LLVM_VERSION_MAJOR >= 11
     const auto *vt = cast<llvm::FixedVectorType>(eei->getVectorOperandType());
-#else
-    const llvm::VectorType *vt = eei->getVectorOperandType();
-#endif
     unsigned EltBits = getWidthForLLVMType(vt->getElementType());
 
     if (iIdx >= vt->getNumElements()) {

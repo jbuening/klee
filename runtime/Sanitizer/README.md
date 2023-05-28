@@ -19,7 +19,7 @@ add one of the following options:
 * Short exclusive form
     * `-fsanitize=undefined,float-divide-by-zero,unsigned-integer-overflow,implicit-conversion,nullability -fno-sanitize=local-bounds,function,vptr`
 * Verbose inclusive form
-    * LLVM 11 and lower
+    * LLVM 11
         * `-fsanitize=alignment,bool,builtin,array-bounds,enum,float-cast-overflow,float-divide-by-zero,implicit-unsigned-integer-truncation,implicit-signed-integer-truncation,implicit-integer-sign-change,integer-divide-by-zero,nonnull-attribute,null,nullability-arg,nullability-assign,nullability-return,object-size,pointer-overflow,return,returns-nonnull-attribute,shift,signed-integer-overflow,unreachable,unsigned-integer-overflow,vla-bound`
     * LLVM 12 and higher
         * `-fsanitize=alignment,bool,builtin,array-bounds,enum,float-cast-overflow,float-divide-by-zero,implicit-unsigned-integer-truncation,implicit-signed-integer-truncation,implicit-integer-sign-change,integer-divide-by-zero,nonnull-attribute,null,nullability-arg,nullability-assign,nullability-return,object-size,pointer-overflow,return,returns-nonnull-attribute,shift,unsigned-shift-base,signed-integer-overflow,unreachable,unsigned-integer-overflow,vla-bound`
